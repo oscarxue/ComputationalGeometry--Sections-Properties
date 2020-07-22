@@ -80,11 +80,44 @@ print(section_centroid)
 #calculating moment of inertia about xx and yy axis
 #calculating product of inertia withrespect to xy axis about the centroid
 #product of inertia measures rotational stability
-def inertia():   #measures warping of beam
+def inertia(pts):   #measures warping of beam
     if pts[0] != pts[-1]:
         pts = pts + pts[:1] , #:1 means the showing the first element of the array, same as [0]
         
-            
+    x = [ a[0] for a in pts ]  # x coordinates in every point
+    y = [ a[1] for a in pts ]  # y coordinates in every point
+    
+    #setting out the variables
+    sxx = 0
+    syy = 0
+    sxy = 0
+    
+    newarea = area(pts)
+    
+    centroid_x, centroid_y = centroid(pts)  # centroid function gives x, y coordinates
+    
+    
+    #use forloop to sum up the equations
+    for i in range(len(pts)-1):  #uses every first two points
+        
+        sxx += (y[i]**2 + y[i]*y[i+1] + y[i+1]**2)*(x[i]*y[i+1] - x[i+1]*y[i])
+        
+        syy += (x[i]**2 + x[i]*x[i+1] + x[i+1]**2)*(x[i]*y[i+1] - x[i+1]*y[i])
+        
+        sxy += (x[i]*y[i+1] + 2*x[i]*y[i] + 2*x[i+1]*y[i+1] + x[i+1]*y[i])*(x[i]*y[i+1] - x[i+1]*y[i])
+  
+    return sxx/12 - newarea*centroid_y**2, syy/12 - newarea*centroid_x**2, sxy/24 - newarea*centroid_x*centroid_y
+
+
+
+x = inertia(pts)
+    
+    
+    
+    
+    
+    
+
 
 
 
